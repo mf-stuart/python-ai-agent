@@ -1,3 +1,5 @@
+from google.genai import types
+
 import os
 
 def write_file(working_directory, file_path, content):
@@ -19,3 +21,20 @@ def write_file(working_directory, file_path, content):
         return f'Error: "{working_directory}" cannot be accessed'
     except IOError:
         return f'Error: "{working_directory}" cannot be accessed'
+
+schema_write_file = types.FunctionDeclaration(
+    name="write_file",
+    description="Writes the specified file to the specified directory.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The file to write, relative to the current working directory."),
+            "content": types.Schema(
+                type=types.Type.STRING,
+                description="The content to write, as a string."
+            ),
+        },
+    ),
+)

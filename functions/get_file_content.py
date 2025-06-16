@@ -1,5 +1,6 @@
 import os
-MAX_CHARACTERS = 10000
+from google.genai import types
+from config import MAX_CHARACTERS
 
 def get_file_content(working_directory, file_path):
     try:
@@ -18,3 +19,17 @@ def get_file_content(working_directory, file_path):
         return f'Error: File not found or is not a regular file: "{file_name}"'
     except PermissionError:
         return f'Error: "{working_directory}" cannot be accessed'
+
+schema_get_file_content = types.FunctionDeclaration(
+        name="get_file_content",
+        description="Gets file content from the specified directory and returns a string of it's content. String is truncated to 10000 characters if needed and a message is appended on the end. ",
+        parameters=types.Schema(
+            type=types.Type.OBJECT,
+            properties={
+                "file_path": types.Schema(
+                    type=types.Type.STRING,
+                    description="The file to read from, relative to the current working directory."
+                ),
+            },
+        ),
+    )

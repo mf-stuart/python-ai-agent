@@ -1,7 +1,7 @@
+from google.genai import types
+
 import os
 import subprocess
-from sys import exception
-
 
 def run_python_file(working_directory, file_path):
     try:
@@ -36,4 +36,19 @@ def run_python_file(working_directory, file_path):
     except PermissionError:
         return f'Error: "{working_directory}" cannot be accessed'
     except Exception as e:
-        f"Error: executing Python file: {e}"
+        return f"Error: executing Python file: {e}"
+
+
+schema_run_python_file = types.FunctionDeclaration(
+    name="run_python_file",
+    description="Runs the specified python file from the specified directory and returns a string of it's result, including stdout and stderr.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The file to execute, relative to the current working directory."
+            ),
+        },
+    ),
+)
