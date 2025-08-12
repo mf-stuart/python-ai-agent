@@ -56,4 +56,7 @@ class Calculator:
 
         b = values.pop()
         a = values.pop()
+        if operator == '/' and b == 0:
+            raise ZeroDivisionError("division by zero")
         values.append(self.operators[operator](a, b))
+
